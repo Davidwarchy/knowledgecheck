@@ -2,3 +2,4 @@
 __pycache__/
 knowledge*.db
 myenv/
+get-pip.py
