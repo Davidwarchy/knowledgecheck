@@ -28,9 +28,12 @@ https://github.com/Davidwarchy/knowledgecheck.git
 ### Run 
 ```py .\run.py```
 
-![Uploading image.png…]()
+Output for the process ought to resemble this:
 
+![image](https://github.com/Davidwarchy/knowledgecheck/assets/17954362/3f7f5e72-7c7d-474d-931a-6694314ba412)
 
 ### View entities in our local knowledge graph
+You can run this command to check the entities in our local knowledge graph currently. 
+
 ```py .\lkg.py```
 
