@@ -10,6 +10,11 @@ from urllib.parse import unquote
 from datetime import datetime 
 from dictionary import get_dic_info
 from config import PATH_DB
+import colorama
+from colorama import Fore
+
+# Initialize colorama
+colorama.init(autoreset=True)
 
 DBPEDIA_API = "http://lookup.dbpedia.org/api/search/KeywordSearch"
 DBPEDIA_ONTOLOGY_API = "http://dbpedia.org/sparql"
@@ -203,13 +208,13 @@ def process_phrase(noun_phrase):
     # --- FOREIGN KG --- 
     # if no results (idKg is None), search foreign kg
     if idKg:
-        print(f"Discovered in local kg: {noun_phrase}, lkg id: {idKg}")
+        print(Fore.GREEN + f"Discovered in local kg: {noun_phrase}, lkg id: {idKg}")
         return True # return in case of recursive function
     else:
         idKg = process_foreign_kg( noun_phrase )
 
     if idKg:
-        print(f"Discovered in foreign kg: {noun_phrase}, new lkg id: {idKg}")
+        print(Fore.BLUE + f"Discovered in foreign kg: {noun_phrase}, new lkg id: {idKg}")
         return True # return in case of recursive function
     
     # --- TRIM --- 
@@ -221,10 +226,10 @@ def process_phrase(noun_phrase):
     if noun_phrase_trimmed is None:
         res_dic = get_dic_info(noun_phrase)
         if res_dic["isDicEntry"]:
-            print(f'Discovered in dic: {get_last_word(noun_phrase)}')
+            print(Fore.BLACK + f'Discovered in dic: {get_last_word(noun_phrase)}')
             return True
         else:
-            print(f'phrase not found in knowledge base:{ noun_phrase}')
+            print(Fore.RED + f'phrase not found in knowledge base: {noun_phrase}')
             return False 
 
     # --- REPEAT ---

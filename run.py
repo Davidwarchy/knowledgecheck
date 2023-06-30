@@ -6,7 +6,7 @@ from utils import create_database, create_table_entities, create_table_ignored
 from config import PATH_DB
 
 # create a new database and update it with items
-def create_db():
+def create_lkg():
     db_name = PATH_DB
     print(f'creating database: {db_name}')
     create_database(db_name)
@@ -29,7 +29,8 @@ def run_main():
     """
     main()
 
-
+# create a simple local knowledge graph
+create_lkg()
 
 # show the current items in our knowledge graph
 show_lkg()

@@ -41,6 +41,7 @@ def insert_rows(db_name, table_name, rows):
     conn.close()
 
 def create_table_entities():
+    print(f'DATABASE: creating local knowledge graph table...')
     db_name = PATH_DB
     table_name = 'OLKG'
     rows = ['Nairobi', 'United States', 'Miami Dolphins']
@@ -49,6 +50,7 @@ def create_table_entities():
     insert_rows(db_name, table_name, rows)
 
 def create_table_ignored():
+    print(f'DATABASE: creating ignored phrases table...')
     db_name = PATH_DB
     table_name = 'OIGN'
     rows = ['i', 'you', 'he', 'she', 'they', 'we', 'it', 'who', 'which', 'that']
