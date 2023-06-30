@@ -27,6 +27,10 @@ Run ```pip``` on the command prompt to see if it's installed
 #### Clone
 https://github.com/Davidwarchy/knowledgecheck.git
 
+OR
+#### Download & Unzip 
+<img width="316" alt="image" src="https://github.com/Davidwarchy/knowledgecheck/assets/17954362/bd5de2fc-01ea-4f23-837b-f5ce59e72c12">
+
 ### Run 
 ```py .\run.py```
 
