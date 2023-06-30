@@ -16,7 +16,8 @@ The dic is by wordnet
 
 ### Prerequisites
 1. Python https://www.python.org/downloads/
-2. Pip (add pip to system path)
+2. Pip (add pip to system path) - most versions of python do this automatically. \
+Run ```pip``` on the command prompt to see if it's installed
 
 ### Warnings
 1. The project installs dependencies automatically if prerequisites are installed well.
