@@ -226,7 +226,7 @@ def process_phrase(noun_phrase):
     if noun_phrase_trimmed is None:
         res_dic = get_dic_info(noun_phrase)
         if res_dic["isDicEntry"]:
-            print(Back.BLACK + Fore.WHITE + f'Discovered in dic: {get_last_word(noun_phrase)}' + Style.RESET_ALL)
+            print(Fore.BLACK + Back.WHITE + f'Discovered in dic: {get_last_word(noun_phrase)}' + Style.RESET_ALL)
             return True
         else:
             print(Fore.RED + f'phrase not found in knowledge base: {noun_phrase}')
