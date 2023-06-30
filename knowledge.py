@@ -9,12 +9,11 @@ from collections import defaultdict
 from urllib.parse import unquote
 from datetime import datetime 
 from dictionary import get_dic_info
-import kg_dp
-import time
-import re
+from config import PATH_DB
 
 DBPEDIA_API = "http://lookup.dbpedia.org/api/search/KeywordSearch"
 DBPEDIA_ONTOLOGY_API = "http://dbpedia.org/sparql"
+global ignored_phrases
 
 def parse_dbpedia_result(result):
     return {
@@ -95,7 +94,7 @@ def is_in_ignore_list(term):
     return term.lower() in ignored_phrases
 
 def search_in_local_kg(phrase):
-    with sqlite3.connect('knowledge.db') as conn:
+    with sqlite3.connect(PATH_DB) as conn:
         # Create a cursor object to execute SQL queries
         cursor = conn.cursor()
 
@@ -121,7 +120,7 @@ def add_to_kg(label):
     Add a label the local knowledge graph.
     """
 
-    with sqlite3.connect('knowledge.db') as conn:
+    with sqlite3.connect(PATH_DB) as conn:
         cursor = conn.cursor()
 
         # Insert the label into the Labels table if it doesn't exist
@@ -222,10 +221,10 @@ def process_phrase(noun_phrase):
     if noun_phrase_trimmed is None:
         res_dic = get_dic_info(noun_phrase)
         if res_dic["isDicEntry"]:
-            print(f'\tDiscovered in dic: {get_last_word(noun_phrase)}')
+            print(f'Discovered in dic: {get_last_word(noun_phrase)}')
             return True
         else:
-            print(f'\tphrase not found in knowledge base:{ noun_phrase}')
+            print(f'phrase not found in knowledge base:{ noun_phrase}')
             return False 
 
     # --- REPEAT ---
@@ -244,9 +243,12 @@ def process_phrase(noun_phrase):
 
 # Main function
 def main():
+    global ignored_phrases
     # get all lables from otrc that don't have a checkmark as being inspected
     # get subject labels first
     phrases = get_phrases()
+    ignored_phrases = get_ignored()
+
     for phrase in phrases:
         try:
             # check if phrase is in ignored phrases
@@ -264,7 +266,7 @@ def main():
 
 def get_ignored():
     # Connect to the SQLite database using 'with' statement
-    with sqlite3.connect('knowledge.db') as conn:
+    with sqlite3.connect(PATH_DB) as conn:
         # Create a cursor object to execute SQL queries
         cursor = conn.cursor()
 
@@ -281,5 +283,4 @@ def get_ignored():
 
 
 if __name__ == "__main__":
-    ignored_phrases = get_ignored()
     main()

@@ -6,6 +6,7 @@
 # it should have the following rows: Nairobi, United States, Miami Dolphins
 
 import sqlite3
+from config import PATH_DB
 
 def create_database(db_name):
     conn = sqlite3.connect(db_name)
@@ -40,7 +41,7 @@ def insert_rows(db_name, table_name, rows):
     conn.close()
 
 def create_table_entities():
-    db_name = 'knowledge.db'
+    db_name = PATH_DB
     table_name = 'OLKG'
     rows = ['Nairobi', 'United States', 'Miami Dolphins']
 
@@ -48,7 +49,7 @@ def create_table_entities():
     insert_rows(db_name, table_name, rows)
 
 def create_table_ignored():
-    db_name = 'knowledge.db'
+    db_name = PATH_DB
     table_name = 'OIGN'
     rows = ['i', 'you', 'he', 'she', 'they', 'we', 'it', 'who', 'which', 'that']
 
@@ -56,7 +57,7 @@ def create_table_ignored():
     insert_rows(db_name, table_name, rows)
 
 if __name__ == '__main__':
-    db_name = 'knowledge.db'
+    db_name = PATH_DB
 
     create_database(db_name)
     create_table_entities()

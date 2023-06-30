@@ -1,0 +1,1 @@
+PATH_DB = 'knowlege2.db'
