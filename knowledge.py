@@ -11,7 +11,7 @@ from datetime import datetime
 from dictionary import get_dic_info
 from config import PATH_DB
 import colorama
-from colorama import Fore
+from colorama import Fore, Back, Style
 
 # Initialize colorama
 colorama.init(autoreset=True)
@@ -226,7 +226,7 @@ def process_phrase(noun_phrase):
     if noun_phrase_trimmed is None:
         res_dic = get_dic_info(noun_phrase)
         if res_dic["isDicEntry"]:
-            print(Fore.BLACK + f'Discovered in dic: {get_last_word(noun_phrase)}')
+            print(Back.BLACK + Fore.WHITE + f'Discovered in dic: {get_last_word(noun_phrase)}' + Style.RESET_ALL)
             return True
         else:
             print(Fore.RED + f'phrase not found in knowledge base: {noun_phrase}')
