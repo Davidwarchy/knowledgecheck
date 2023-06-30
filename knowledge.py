@@ -57,9 +57,7 @@ def find(query):
     for result in results:
         if satisfy_query_dbpedia(query, result):
             res = {
-                'label': result['label'],
-                'uri': result['uri'],
-                'categories': get_categories_dbpedia(result)
+                'label': result['label']
             }
             response.append(res)
             
@@ -124,25 +122,18 @@ def add_to_kg(label):
     """
 
     with sqlite3.connect('knowledge.db') as conn:
-        # Create a cursor object to execute SQL queries
         cursor = conn.cursor()
 
-        # Insert the label into the Labels table
-        # query that inserts a label into okng if that label doesn't exist. is this the correct way of doing it. i doubt
-        query_upsert =  """
-                        MERGE INTO OKNG AS target
-                        USING (SELECT ? AS name) AS source
-                        ON target.label = source.name
-                        WHEN NOT MATCHED THEN
-                            INSERT (label, dateAdded)
-                            VALUES (source.name, GETDATE());
-                        """
-        cursor.execute( query_upsert, (label,))
+        # Insert the label into the Labels table if it doesn't exist
+        cursor.execute("""
+            INSERT OR IGNORE INTO OLKG (label)
+            VALUES ( ? )
+        """, (label,))
 
-        # Get the ID of the label we just inserted
+        # Get the ID of the label we just inserted or retrieved
         cursor.execute("""
             SELECT id
-            FROM OKNG
+            FROM OLKG
             WHERE label = ?
         """, (label,))
         label_id = cursor.fetchone()[0]
@@ -213,13 +204,13 @@ def process_phrase(noun_phrase):
     # --- FOREIGN KG --- 
     # if no results (idKg is None), search foreign kg
     if idKg:
-        print("Discovered in local kg")
+        print(f"Discovered in local kg: {noun_phrase}, lkg id: {idKg}")
         return True # return in case of recursive function
     else:
         idKg = process_foreign_kg( noun_phrase )
 
     if idKg:
-        print("Discovered in foreign kg")
+        print(f"Discovered in foreign kg: {noun_phrase}, new lkg id: {idKg}")
         return True # return in case of recursive function
     
     # --- TRIM --- 
@@ -231,17 +222,19 @@ def process_phrase(noun_phrase):
     if noun_phrase_trimmed is None:
         res_dic = get_dic_info(noun_phrase)
         if res_dic["isDicEntry"]:
-            print(f'\tphrase in dic: {get_last_word(noun_phrase)}')
+            print(f'\tDiscovered in dic: {get_last_word(noun_phrase)}')
             return True
         else:
-            print(f'\tphrase not found in knowledge base')
+            print(f'\tphrase not found in knowledge base:{ noun_phrase}')
+            return False 
 
-    # --- REPEAT --- 
+    # --- REPEAT ---
     solution_found = False  # Flag variable to track if a solution is found
     while noun_phrase_trimmed is not None:
-        if process_phrase( noun_phrase_trimmed ):  # Process the trimmed phrase recursively
+        if process_phrase(noun_phrase_trimmed):  # Process the trimmed phrase recursively
             solution_found = True  # Set the flag to indicate a solution is found
             break  # Exit the while loop
+        noun_phrase_trimmed = trim(noun_phrase_trimmed)  # Update the value of noun_phrase_trimmed
 
     if solution_found:
         return True  # Return True to propagate the solution up the recursive call stack
