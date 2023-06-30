@@ -15,10 +15,11 @@ The foreign kg is check is done with a query to https://lookup.dbpedia.org/
 The dic is by wordnet
 
 ### Prerequisites
-1. Python https://www.python.org/downloads/ 
+1. Python https://www.python.org/downloads/
+2. Pip (add pip to system path)
 
 ### Warnings
-1. The project installs dependencies automatically.
+1. The project installs dependencies automatically if prerequisites are installed well.
 2. This has been tested only on windows and may break on linux
 
 ### Clone or download the project
