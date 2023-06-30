@@ -1,1 +1,1 @@
-PATH_DB = 'knowlege2.db'
+PATH_DB = 'knowledge.db'
