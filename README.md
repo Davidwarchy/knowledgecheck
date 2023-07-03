@@ -12,7 +12,7 @@ The local is a simple table listing names of entities
 
 The foreign kg is check is done with a query to https://lookup.dbpedia.org/
 
-The dic is by wordnet
+The dic is by wordnet https://wordnet.princeton.edu/
 
 ### Prerequisites
 1. Python https://www.python.org/downloads/
